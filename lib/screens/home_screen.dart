@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:tic_tac_toe/constants.dart';
 
-import 'alert_dialog.dart';
+import '../components/alert_dialog.dart';
+import '../components/constants.dart';
 
 class Test extends StatefulWidget {
   @override
@@ -17,7 +16,7 @@ class _TestState extends State<Test> {
 }
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -54,10 +53,15 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           )
         ],
-        title: Text(
-          'Tic Tac Toe',
-          style: kCustomText(
-              fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.w800),
+        title: RichText(
+          text: TextSpan(
+            text: 'Tic Tac Toe',
+            style: kCustomText(
+              fontSize: 20.0,
+              color: Colors.white,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
         ),
       ),
       backgroundColor: Colors.grey[900],
@@ -73,64 +77,74 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildPointsTable() {
     return Expanded(
-      child: Container(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(
-                20.0,
-              ),
-              child: Column(
-                children: [
-                  Text(
-                    'Player O',
-                    style: kCustomText(
-                        fontSize: 22.0,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w800),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    _scoreO.toString(),
-                    style: kCustomText(
-                        color: Colors.white,
-                        fontSize: 25.0,
-                        fontWeight: FontWeight.bold),
-                  )
-                ],
-              ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(
+              20.0,
             ),
-            Padding(
-              padding: const EdgeInsets.all(
-                20.0,
-              ),
-              child: Column(
-                children: [
-                  Text(
-                    'Player X',
+            child: Column(
+              children: [
+                RichText(
+                  text: TextSpan(
+                    text: 'Player O',
                     style: kCustomText(
-                        fontSize: 22.0,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w800),
+                      fontSize: 22.0,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    _scoreX.toString(),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                RichText(
+                  text: TextSpan(
+                    text: _scoreO.toString(),
                     style: kCustomText(
-                        color: Colors.white,
-                        fontSize: 25.0,
-                        fontWeight: FontWeight.bold),
+                      color: Colors.white,
+                      fontSize: 25.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ],
-              ),
-            )
-          ],
-        ),
+                )
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(
+              20.0,
+            ),
+            child: Column(
+              children: [
+                RichText(
+                  text: TextSpan(
+                    text: 'Player X',
+                    style: kCustomText(
+                      fontSize: 22.0,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                RichText(
+                  text: TextSpan(
+                    text: _scoreX.toString(),
+                    style: kCustomText(
+                      color: Colors.white,
+                      fontSize: 25.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }
@@ -139,21 +153,25 @@ class _HomeScreenState extends State<HomeScreen> {
     return Expanded(
       flex: 3,
       child: GridView.builder(
-          itemCount: 9,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-          ),
-          itemBuilder: (BuildContext context, int index) {
-            return GestureDetector(
-              onTap: () {
-                _tapped(index);
-              },
-              child: Container(
-                decoration:
-                    BoxDecoration(border: Border.all(color: Colors.grey[700])),
-                child: Center(
-                  child: Text(
-                    _xOrOList[index],
+        itemCount: 9,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+        ),
+        itemBuilder: (BuildContext context, int index) {
+          return GestureDetector(
+            onTap: () {
+              _tapped(index);
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.grey.shade700,
+                ),
+              ),
+              child: Center(
+                child: RichText(
+                  text: TextSpan(
+                    text: _xOrOList[index],
                     style: TextStyle(
                       color:
                           _xOrOList[index] == 'x' ? Colors.white : Colors.red,
@@ -162,19 +180,23 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-            );
-          }),
+            ),
+          );
+        },
+      ),
     );
   }
 
   Widget _buildTurn() {
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: Text(
-            _turnOfO ? 'Turn of O' : 'Turn of X',
-            style: kCustomText(color: Colors.white),
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Center(
+        child: RichText(
+          text: TextSpan(
+            text: _turnOfO ? 'Turn of O' : 'Turn of X',
+            style: kCustomText(
+              color: Colors.white,
+            ),
           ),
         ),
       ),
@@ -186,12 +208,13 @@ class _HomeScreenState extends State<HomeScreen> {
       if (_turnOfO && _xOrOList[index] == '') {
         _xOrOList[index] = 'o';
         _filledBoxes += 1;
+        _turnOfO = !_turnOfO;
       } else if (!_turnOfO && _xOrOList[index] == '') {
         _xOrOList[index] = 'x';
         _filledBoxes += 1;
+        _turnOfO = !_turnOfO;
       }
 
-      _turnOfO = !_turnOfO;
       _checkTheWinner();
     });
   }
@@ -268,16 +291,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _showAlertDialog(String title, String winner) {
     showAlertDialog(
-        context: context,
-        title: title,
-        content: winner == ''
-            ? 'The match ended in a draw'
-            : 'The winner is ${winner.toUpperCase()}',
-        defaultActionText: 'OK',
-        onOkPressed: () {
-          _clearBoard();
-          Navigator.of(context).pop();
-        });
+      context: context,
+      title: title,
+      content: winner == ''
+          ? 'The match ended in a draw'
+          : 'The winner is ${winner.toUpperCase()}',
+      defaultActionText: 'OK',
+      onOkPressed: () {
+        _clearBoard();
+        Navigator.pop(context);
+      },
+    );
 
     if (winner == 'o') {
       _scoreO += 1;
